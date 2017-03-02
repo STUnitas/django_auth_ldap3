@@ -97,8 +97,8 @@ class LDAPBackend(object):
 
         # Check if this user is part of the admin group.
         admin = False
-        if settings.ADMIN_GROUP:
-            admin = self.check_group_membership(ldap_user, settings.ADMIN_GROUP)
+        #if settings.ADMIN_GROUP:
+            #admin = self.check_group_membership(ldap_user, settings.ADMIN_GROUP)
 
         # Get or create the User object in Django's auth, populating it with
         # fields from the LDAPUser. Note we set the password to a random hash
@@ -123,7 +123,7 @@ class LDAPBackend(object):
             django_user.first_name = ldap_user.givenName
             django_user.last_name = ldap_user.sn
             django_user.email = ldap_user.mail
-            django_user.is_staff = admin
+            # django_user.is_staff = admin
             django_user.save()
 
         self.update_group_membership(ldap_user, django_user)
