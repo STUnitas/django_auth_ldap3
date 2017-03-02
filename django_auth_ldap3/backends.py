@@ -18,7 +18,7 @@ class LDAPUser(object):
     """
 
     connection = None
-    _attrib_keys = [settings.UID_ATTRIB, 'cn', 'givenName', 'sn', 'mail']
+    _attrib_keys = [settings.UID_ATTRIB, 'cn', 'givenName', 'sn', 'mail', 'department']
 
     def __init__(self, connection, attributes):
         self.connection = connection
@@ -120,8 +120,8 @@ class LDAPBackend(object):
         else:
             # If the user wasn't created, update its fields from the directory.
             django_user = django_user[0]
-            django_user.first_name = ldap_user.givenName
-            django_user.last_name = ldap_user.sn
+            django_user.first_name = ldap_user.sn
+            django_user.last_name = ldap_user.givenName + " (" + ldap_user.department + ")"
             django_user.email = ldap_user.mail
             # django_user.is_staff = admin
             django_user.save()
