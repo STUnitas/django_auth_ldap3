@@ -109,8 +109,8 @@ class LDAPBackend(object):
             # case-sensitive version
             django_user = User(username=ldap_user.username,
                     password=hashlib.sha1().hexdigest(),
-                    first_name=ldap_user.givenName,
-                    last_name=ldap_user.sn,
+                    last_name=ldap_user.givenName + " (" + ldap_user.department + ")",
+                    first_name=ldap_user.sn,
                     email=ldap_user.mail,
                     is_superuser=False,
                     is_staff=admin,
