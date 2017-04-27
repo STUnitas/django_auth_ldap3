@@ -107,15 +107,26 @@ class LDAPBackend(object):
         if not django_user:
             # Create new user. We use `ldap_user.username` here as it is the
             # case-sensitive version
-            django_user = User(username=ldap_user.username,
-                    password=hashlib.sha1().hexdigest(),
-                    last_name=ldap_user.givenName + " (" + ldap_user.department + ")",
-                    first_name=ldap_user.sn,
-                    email=ldap_user.mail,
-                    is_superuser=False,
-                    is_staff=admin,
-                    is_active=True
-            )
+            try:
+                django_user = User(username=ldap_user.username,
+                        password=hashlib.sha1().hexdigest(),
+                        last_name=ldap_user.givenName + " (" + ldap_user.department + ")",
+                        first_name=ldap_user.sn,
+                        email=ldap_user.mail,
+                        is_superuser=False,
+                        is_staff=admin,
+                        is_active=True
+                )
+            except:
+                django_user = User(username=ldap_user.username,
+                        password=hashlib.sha1().hexdigest(),
+                        last_name=" (" + ldap_user.department + ")",
+                        first_name=ldap_user.sn,
+                        email=ldap_user.mail,
+                        is_superuser=False,
+                        is_staff=admin,
+                        is_active=True
+                )
             django_user.save()
         else:
             # If the user wasn't created, update its fields from the directory.
