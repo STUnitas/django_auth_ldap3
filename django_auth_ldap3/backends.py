@@ -120,7 +120,7 @@ class LDAPBackend(object):
             except:
                 django_user = User(username=ldap_user.username,
                         password=hashlib.sha1().hexdigest(),
-                        last_name=" (" + ldap_user.department + ")",
+                        last_name="",
                         first_name=ldap_user.sn,
                         email=ldap_user.mail,
                         is_superuser=False,
