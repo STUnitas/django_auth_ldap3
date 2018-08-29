@@ -132,6 +132,8 @@ class LDAPBackend(object):
             # If the user wasn't created, update its fields from the directory.
             django_user = django_user[0]
             django_user.first_name = ldap_user.sn
+            if type(ldap_user.department) == list:
+                ldap_user.department = ", ".join(ldap_user.department)
             django_user.last_name = ldap_user.givenName + " (" + ldap_user.department + ")"
             django_user.email = ldap_user.mail
             # django_user.is_staff = admin
